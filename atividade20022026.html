@@ -1,0 +1,99 @@
+<!DOCTYPE html>  <html>  
+<head>  
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">  
+  <title>Cadastro de produtos</title>  
+</head>  
+<body>  
+  <h1>  
+    Cadastro (Array de objetos)  
+  </h1>  
+  <p>Produto:</p><input type="text" id="produto" placeholder="Ex: mouse"></input>  
+  <p>Preco(R$):</p><input type="number" id="preco" placeholder="Ex: 99,90"></input>  
+  <p>Quantidade:</p><input type="number" id="quantidade" placeholder="Ex: 2"></input>  
+  <button onclick="adicionar()">Adicionar produto</button>  
+  <button onclick="listar()">Listar produtos</button>  
+  <button onclick="resumir()">Resumo</button>  
+  <button onclick="limpar()">Limpar tudo</button>  
+  <hr>  
+  <h2>Remover por indice: </h2>  <input type="number" id="indice" placeholder="Ex: 0"></input> <button onclick="remover()">Remover</button>
+<br>
+
+  <p id="aviso"></p>    <table border="1" id="tabela">  
+    <tr>  
+      <th>Indice</th>  
+      <th>Produto</th>  
+      <th>Preco(R$)</th>  
+      <th>Qtd</th>  
+      <th>Subtotal</th>  
+    </tr>  
+  </table>  
+  <script>  let produtos=[];
+
+function adicionar() {
+let nome=document.getElementById("produto").value;
+let preco=Number(document.getElementById("preco").value);
+let quantidade=Number(document.getElementById("quantidade").value);
+
+let produto = {  
+  nome: nome,  
+  preco: preco,  
+  quantidade: quantidade  
+};  
+  
+produtos.push(produto);  
+  
+document.getElementById("aviso").innerText =   
+"Produto adicionado. Total cadastrados: " + produtos.length;
+
+};
+
+function listar() {
+let tabela=document.getElementById("tabela");
+
+tabela.innerHTML= `  
+<tr>  
+  <th>Indice</th>  
+  <th>Produto</th>  
+  <th>Preco(R$)</th>  
+  <th>Qtd</th>  
+  <th>Subtotal</th>  
+</tr>  
+`;  
+  
+for (let i = 0; i < produtos.length; i++) {  
+  let subtotal = produtos[i].preco * produtos[i].quantidade;  
+    
+  tabela.innerHTML += `  
+    
+ <tr>  
+ <td>${i}</td>  
+ <td>${produtos[i].nome}</td>  
+ <td>${produtos[i].preco.toFixed(2)}</td>  
+  <td>${produtos[i].quantidade}</td>  
+  <td>${subtotal.toFixed(2)}</td>  
+    
+ </tr>  
+  `;  
+}
+
+};
+
+function resumir() {
+
+};
+
+function limpar() {
+produtos=[];
+document.getElementById("aviso").innerText = "";
+listar();
+};
+
+function remover() {
+let indice=Number(document.getElementById("indice").value);
+produtos.splice(indice, 1);
+listar();
+};
+
+  </script>  
+</body>  
+</html>
