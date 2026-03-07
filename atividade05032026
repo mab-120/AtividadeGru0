@@ -24,7 +24,7 @@ body {
   flex-wrap: wrap; /* quebra linha se faltar espaço */
 }
 
-.botoes button {
+ button {
   width: 140px;
   height: 40px;
   background-color: rgb(255,166,0);
@@ -33,7 +33,7 @@ body {
   cursor: pointer;
 }
 
-.botoes button:hover {
+ button:hover {
   background-color: rgb(245,159,0);
 }
 input{
@@ -43,6 +43,7 @@ input{
 
 table{
   margin: auto;
+  border-collapse: collapse;
 }
 
 </style>
@@ -59,7 +60,7 @@ table{
   <br> 
   <label><strong>Preço(R$): </strong></label>
   <br>
-  <input type="number" id="preco" placeholder="Ex: 99,90"></input>  
+  <input type="number" id="preco" placeholder="Ex: 99.90"></input>  
   <br>
   <br>
   <label><strong>Quantidade: </strong></label>
@@ -76,9 +77,13 @@ table{
   <button onclick="limpar()"><strong>Limpar tudo</strong></button>  
   </div>
   <hr>  
-  <br>
-  <h2>Remover por indice: </h2>  <input type="number" id="indice" placeholder="Ex: 0"></input> <button onclick="remover()">Remover</button>
-<br>
+  <h2>Remover por indice: </h2> 
+   <input type="number" id="indice" placeholder="Ex: 0"></input>
+   <br><br> 
+  <button onclick="remover()"><strong>Remover</strong></button>
+
+
+
 
 <strong><p id="saida"></p></strong>
 
@@ -86,11 +91,11 @@ table{
   
   <table border="1" style="background-color: white;" id="tabela">  
     <tr>  
-      <th>Indice</th>  
-      <th>Produto</th>  
-      <th>Preco(R$)</th>  
-      <th>Quantidade</th>  
-      <th>Subtotal</th>  
+      <th> Indice </th>  
+      <th> Produto </th>  
+      <th> Preco(R$) </th>  
+      <th> Quantidade </th>  
+      <th> Subtotal </th>  
     </tr>  
   </table>  
 
@@ -157,7 +162,7 @@ function listar() {
         return;
       }
 
-document.getElementById('lugar_tabela').style.visibility = 'visible';
+document.getElementById('lugar_tabela').style.display = 'block';
 
 let tabela=document.getElementById("tabela");
 
@@ -213,7 +218,7 @@ function resumir() {
 function limpar() {
 produtos.length = 0;
 saida.innerText = "";
-document.getElementById('lugar_tabela').style.visibility = 'hidden';
+document.getElementById('lugar_tabela').style.display = 'none';
 };
 
 function remover() {
