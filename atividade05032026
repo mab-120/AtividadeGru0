@@ -20,8 +20,8 @@ body {
 .botoes {
   display: flex;
   justify-content: center;
-  gap: 10px; /* espaço entre os botões */
-  flex-wrap: wrap; /* quebra linha se faltar espaço */
+  gap: 10px; 
+  flex-wrap: wrap;
 }
 
  button {
