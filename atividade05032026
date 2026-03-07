@@ -1,0 +1,239 @@
+<!DOCTYPE html>  <html>  
+<head>  
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">  
+  <title>Cadastro de produtos</title>  
+
+<style>
+
+body {
+  font-family: nunito, sans-serif;
+  background-color: rgb(195,195,196);
+  display: flex;
+  justify-content: center;
+}
+
+.container{
+  width: 420px;
+  text-align: center;
+}
+
+.botoes {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* espaço entre os botões */
+  flex-wrap: wrap; /* quebra linha se faltar espaço */
+}
+
+.botoes button {
+  width: 140px;
+  height: 40px;
+  background-color: rgb(255,166,0);
+  border-radius: 20px;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.botoes button:hover {
+  background-color: rgb(245,159,0);
+}
+input{
+  width: 200px;
+  height: 25px;
+}
+
+table{
+  margin: auto;
+}
+
+</style>
+</head>  
+<body> 
+<div class="container">
+  <h1>  
+    Cadastro (Array de objetos)  
+  </h1>  
+  <label><strong>Produto: </strong></label>
+  <br>
+  <input type="text" id="nome" placeholder="Ex: mouse"></input> 
+  <br>
+  <br> 
+  <label><strong>Preço(R$): </strong></label>
+  <br>
+  <input type="number" id="preco" placeholder="Ex: 99,90"></input>  
+  <br>
+  <br>
+  <label><strong>Quantidade: </strong></label>
+  <br>
+  <input type="number" id="quantidade" placeholder="Ex: 2"></input>  
+  <br><br>
+  <div class="botoes">
+  <button onclick="adicionar()"><strong>Adicionar produto</strong> </button>
+ 
+  <button onclick="listar()"><strong>Listar produtos </strong></button> 
+
+  <button onclick="resumir()"><strong>Resumo</strong></button> 
+  
+  <button onclick="limpar()"><strong>Limpar tudo</strong></button>  
+  </div>
+  <hr>  
+  <br>
+  <h2>Remover por indice: </h2>  <input type="number" id="indice" placeholder="Ex: 0"></input> <button onclick="remover()">Remover</button>
+<br>
+
+<strong><p id="saida"></p></strong>
+
+<div id="lugar_tabela" style="display:none;">
+  
+  <table border="1" style="background-color: white;" id="tabela">  
+    <tr>  
+      <th>Indice</th>  
+      <th>Produto</th>  
+      <th>Preco(R$)</th>  
+      <th>Quantidade</th>  
+      <th>Subtotal</th>  
+    </tr>  
+  </table>  
+
+</div>
+</div>
+
+ <script>  
+
+
+const produtos=[];
+
+const nomeEl = document.getElementById("nome");
+const precoEl = document.getElementById("preco");
+const quantidadeEl = document.getElementById("quantidade");
+const saida = document.getElementById("saida");
+const indiceEl = document.getElementById("indice");
+
+function adicionar() {
+const nome=nomeEl.value;
+const preco=Number(precoEl.value);
+const quantidade=Number(quantidadeEl.value);
+
+
+
+   const erro = validarProduto(nome, preco, quantidade);
+      if (erro) {
+        alert(erro);
+        return;
+      }
+
+
+      const existente = produtos.find(p => p.nome.toLowerCase() === nome.trim().toLowerCase());
+      if (existente) {
+        existente.quantidade += quantidade;
+        existente.preco = preco; 
+        saida.innerHTML = `<p>Produto atualizado: <strong>${existente.nome}</strong> (qtd agora: ${existente.quantidade}).</p>`;
+      } else {
+        produtos.push({ nome: nome.trim(), preco, quantidade });
+        saida.innerHTML = `<p>Produto adicionado. Total cadastrados: <strong>${produtos.length}</strong></p>`;
+      }
+
+      limparCamposCadastro();
+
+};
+
+function validarProduto(nome, preco, quantidade) {
+   if (nome.trim() === "") return "Informe o nome do produto.";
+   if (!Number.isFinite(preco) || preco <= 0) return "Informe um preço válido maior que 0.";
+   if (!Number.isInteger(quantidade) || quantidade <= 0) return "Informe uma quantidade inteira maior que 0.";
+   return null;
+};
+
+function limparCamposCadastro() {
+ nomeEl.value = "";
+ precoEl.value = "";
+ quantidadeEl.value = "";
+ nomeEl.focus();
+};
+    
+
+function listar() {
+     if (produtos.length === 0) {
+        alert("Nenhum produto cadastrado.");
+        return;
+      }
+
+document.getElementById('lugar_tabela').style.visibility = 'visible';
+
+let tabela=document.getElementById("tabela");
+
+tabela.innerHTML= `  
+<tr>  
+  <th>Indice</th>  
+  <th>Produto</th>  
+  <th>Preco(R$)</th>  
+  <th>Qtd</th>  
+  <th>Subtotal</th>  
+</tr>  
+`;  
+  
+for (let i = 0; i < produtos.length; i++) {  
+  let subtotal = produtos[i].preco * produtos[i].quantidade;  
+    
+  tabela.innerHTML += `  
+    
+ <tr>  
+ <td>${i}</td>  
+ <td>${produtos[i].nome}</td>  
+ <td>${produtos[i].preco.toFixed(2)}</td>  
+  <td>${produtos[i].quantidade}</td>  
+  <td>${subtotal.toFixed(2)}</td>  
+    
+ </tr>  
+  `;  
+}
+
+};
+
+function resumir() {
+      if (produtos.length === 0) {
+        alert("Nenhum produto cadastrado.");
+        return;
+      }
+
+      const totalItens = produtos.reduce((acc, p) => acc + p.quantidade, 0);
+      const totalValor = produtos.reduce((acc, p) => acc + (p.preco * p.quantidade), 0);
+
+      saida.innerHTML = `
+        <h3>Resumo</h3>
+        <p>Total de produtos (linhas): <strong>${produtos.length}</strong></p>
+        <p>Total de itens (somando quantidades): <strong>${totalItens}</strong></p>
+        <p>Valor total do estoque: <strong>R$ ${totalValor.toFixed(2)}</strong></p>
+      `;
+
+
+
+
+};
+
+function limpar() {
+produtos.length = 0;
+saida.innerText = "";
+document.getElementById('lugar_tabela').style.visibility = 'hidden';
+};
+
+function remover() {
+const indice = Number(indiceEl.value);
+
+
+
+
+if  (indice < 0 || indice >= produtos.length) {
+  alert("Insira um índice válido que não seja menor que 0");
+  return;
+};
+
+const removido = produtos.splice(indice, 1)[0];
+saida.innerHTML = `<p>Removido: <strong>${removido.nome}</strong>. Restantes: ${produtos.length}</p>`;
+indiceEl.value = "";
+
+listar();
+};
+
+  </script>  
+</body>  
+</html> 
