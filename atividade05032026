@@ -77,7 +77,7 @@ table{
   <button onclick="limpar()"><strong>Limpar tudo</strong></button>  
   </div>
   <hr>  
-  <h2>Remover por indice: </h2> 
+  <h2>Remover por índice: </h2> 
    <input type="number" id="indice" placeholder="Ex: 0"></input>
    <br><br> 
   <button onclick="remover()"><strong>Remover</strong></button>
@@ -91,7 +91,7 @@ table{
   
   <table border="1" style="background-color: white;" id="tabela">  
     <tr>  
-      <th> Indice </th>  
+      <th> Índice </th>  
       <th> Produto </th>  
       <th> Preco(R$) </th>  
       <th> Quantidade </th>  
