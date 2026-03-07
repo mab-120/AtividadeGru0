@@ -157,12 +157,20 @@ function limparCamposCadastro() {
     
 
 function listar() {
-     if (produtos.length === 0) {
-        alert("Nenhum produto cadastrado.");
-        return;
-      }
 
-document.getElementById('lugar_tabela').style.display = 'block';
+let lugar = document.getElementById('lugar_tabela');
+
+if (lugar.style.display === "block") {
+  lugar.style.display = "none";
+  return;
+}
+
+if (produtos.length === 0) {
+  alert("Nenhum produto cadastrado.");
+  return;
+}
+
+lugar.style.display = "block";
 
 let tabela=document.getElementById("tabela");
 
@@ -175,21 +183,18 @@ tabela.innerHTML= `
   <th>Subtotal</th>  
 </tr>  
 `;  
-  
+
 for (let i = 0; i < produtos.length; i++) {  
   let subtotal = produtos[i].preco * produtos[i].quantidade;  
     
   tabela.innerHTML += `  
-    
  <tr>  
  <td>${i}</td>  
  <td>${produtos[i].nome}</td>  
  <td>${produtos[i].preco.toFixed(2)}</td>  
-  <td>${produtos[i].quantidade}</td>  
-  <td>${subtotal.toFixed(2)}</td>  
-    
- </tr>  
-  `;  
+ <td>${produtos[i].quantidade}</td>  
+ <td>${subtotal.toFixed(2)}</td>  
+ </tr>`;
 }
 
 };
