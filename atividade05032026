@@ -228,7 +228,7 @@ const indice = Number(indiceEl.value);
 
 
 if  (indice < 0 || indice >= produtos.length) {
-  alert("Insira um índice válido que não seja menor que 0");
+  alert("Insira um índice existente que não seja menor que 0.");
   return;
 };
 
